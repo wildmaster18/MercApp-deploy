@@ -5,7 +5,7 @@ Aplicacion web para gestion y venta de productos
 **Estudiante:** Mateo Carranza
 **Carrera:** Ingenieria en Software
 **Materia:** Aplicaciones Web
-**Repositorio:** [github.com/wildmaster18/MercApp](https://github.com/wildmaster18/MercApp)
+**Repositorio:** [github.com/wildmaster18/MercApp-deploy](https://github.com/wildmaster18/MercApp-deploy)
 
 ---
 
@@ -19,11 +19,11 @@ El sistema incluye autenticacion de usuarios, gestion CRUD de productos con imag
 
 ## Enlaces del proyecto desplegado
 
-| Componente                | URL                       |
-| ------------------------- | ------------------------- |
-| Frontend (Netlify)        | _Pendiente de despliegue_ |
-| API REST (Railway)        | _Pendiente de despliegue_ |
-| Micrositio (GitHub Pages) | _Pendiente de despliegue_ |
+| Componente                | URL                                                |
+| ------------------------- | -------------------------------------------------- |
+| Frontend (Netlify)        | https://iridescent-profiterole-b5ffbd.netlify.app  |
+| API REST (Railway)        | https://mercapp-api-production-56c5.up.railway.app |
+| Micrositio (GitHub Pages) | https://wildmaster18.github.io/MercApp-deploy/     |
 
 ---
 
@@ -151,7 +151,7 @@ MercApp/
 
 - Repositorio conectado desde GitHub
 - Build automatico con Nixpacks
-- Variables de entorno configuradas: MONGODB_URI, PORT, FRONTEND_URL, NETLIFY_URL, SESSION_SECRET
+- Variables de entorno configuradas: MONGODB_URI, SESSION_SECRET, FRONTEND_URL, NETLIFY_URL, NODE_ENV (el puerto lo asigna Railway automaticamente)
 - Dominio publico generado con HTTPS
 
 ### Netlify (Frontend)
@@ -160,6 +160,7 @@ MercApp/
 - Variable de build: VITE_API_URL apuntando a Railway
 - Archivo \_redirects para SPA fallback
 - HTTPS activo por defecto
+- Credenciales de la app desplegada: usuario `admin`, contrasena `admin123`
 
 ### GitHub Pages (Micrositio)
 

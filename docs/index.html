@@ -1,233 +1,288 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MercApp - Documentacion del Proyecto</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
     <header class="cabecera">
-        <div class="contenedor">
-            <h1>MercApp</h1>
-            <p class="subtitulo">Aplicacion web para gestion y venta de productos</p>
-            <p class="datos-autor">Mateo Carranza &mdash; Ingenieria en Software &mdash; Universidad Politecnica Salesiana</p>
-        </div>
+      <div class="contenedor">
+        <h1>MercApp</h1>
+        <p class="subtitulo">
+          Aplicacion web para gestion y venta de productos
+        </p>
+        <p class="datos-autor">
+          Mateo Carranza &mdash; Ingenieria en Software &mdash; Universidad
+          Politecnica Salesiana
+        </p>
+      </div>
     </header>
 
     <main class="contenedor">
-        <section class="seccion">
-            <h2>Resumen tecnico</h2>
-            <p>
-                MercApp es una tienda en linea compuesta por una API REST y una SPA que trabajan juntas.
-                El backend esta construido con Node.js, Express y MongoDB, y expone endpoints para gestionar
-                productos, categorias, autenticacion de usuarios y un chat en tiempo real con Socket.io.
-                El frontend es una Single Page Application desarrollada con Vue 3, Vue Router y Pinia,
-                que consume la API y presenta toda la interfaz sin recargar la pagina.
-            </p>
-        </section>
+      <section class="seccion">
+        <h2>Resumen tecnico</h2>
+        <p>
+          MercApp es una tienda en linea compuesta por una API REST y una SPA
+          que trabajan juntas. El backend esta construido con Node.js, Express y
+          MongoDB, y expone endpoints para gestionar productos, categorias,
+          autenticacion de usuarios y un chat en tiempo real con Socket.io. El
+          frontend es una Single Page Application desarrollada con Vue 3, Vue
+          Router y Pinia, que consume la API y presenta toda la interfaz sin
+          recargar la pagina.
+        </p>
+      </section>
 
-        <section class="seccion">
-            <h2>Arquitectura de despliegue</h2>
-            <div class="diagrama">
-                <div class="nodo nodo-usuario">
-                    <strong>Usuario</strong>
-                    <span>Navegador web</span>
-                </div>
-                <div class="flecha">&rarr;</div>
-                <div class="nodo nodo-netlify">
-                    <strong>Netlify</strong>
-                    <span>SPA Vue 3 (dist/)</span>
-                    <span>HTTPS + CDN</span>
-                </div>
-                <div class="flecha">&rarr;</div>
-                <div class="nodo nodo-railway">
-                    <strong>Railway</strong>
-                    <span>API REST Express</span>
-                    <span>Helmet + Rate Limit</span>
-                </div>
-                <div class="flecha">&rarr;</div>
-                <div class="nodo nodo-atlas">
-                    <strong>MongoDB Atlas</strong>
-                    <span>Cluster M0</span>
-                    <span>TLS activo</span>
-                </div>
-            </div>
-            <p class="nota-diagrama">
-                El frontend en Netlify se comunica con la API en Railway mediante HTTPS.
-                CORS esta restringido al dominio de Netlify. La base de datos en Atlas
-                acepta conexiones unicamente desde las IPs autorizadas con TLS habilitado.
-            </p>
-        </section>
+      <section class="seccion">
+        <h2>Arquitectura de despliegue</h2>
+        <div class="diagrama">
+          <div class="nodo nodo-usuario">
+            <strong>Usuario</strong>
+            <span>Navegador web</span>
+          </div>
+          <div class="flecha">&rarr;</div>
+          <div class="nodo nodo-netlify">
+            <strong>Netlify</strong>
+            <span>SPA Vue 3 (dist/)</span>
+            <span>HTTPS + CDN</span>
+          </div>
+          <div class="flecha">&rarr;</div>
+          <div class="nodo nodo-railway">
+            <strong>Railway</strong>
+            <span>API REST Express</span>
+            <span>Helmet + Rate Limit</span>
+          </div>
+          <div class="flecha">&rarr;</div>
+          <div class="nodo nodo-atlas">
+            <strong>MongoDB Atlas</strong>
+            <span>Cluster M0</span>
+            <span>TLS activo</span>
+          </div>
+        </div>
+        <p class="nota-diagrama">
+          El frontend en Netlify se comunica con la API en Railway mediante
+          HTTPS. CORS esta restringido al dominio de Netlify. La base de datos
+          en Atlas acepta conexiones unicamente desde las IPs autorizadas con
+          TLS habilitado.
+        </p>
+      </section>
 
-        <section class="seccion">
-            <h2>Enlaces del proyecto</h2>
-            <table class="tabla">
-                <thead>
-                    <tr>
-                        <th>Componente</th>
-                        <th>URL</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Frontend (Netlify)</td>
-                        <td><a href="#" id="enlace-netlify">Pendiente de despliegue</a></td>
-                    </tr>
-                    <tr>
-                        <td>API REST (Railway)</td>
-                        <td><a href="#" id="enlace-railway">Pendiente de despliegue</a></td>
-                    </tr>
-                    <tr>
-                        <td>Repositorio GitHub</td>
-                        <td><a href="https://github.com/wildmaster18/MercApp" target="_blank">github.com/wildmaster18/MercApp</a></td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
+      <section class="seccion">
+        <h2>Enlaces del proyecto</h2>
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>Componente</th>
+              <th>URL</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Frontend (Netlify)</td>
+              <td>
+                <a
+                  href="https://iridescent-profiterole-b5ffbd.netlify.app"
+                  target="_blank"
+                  id="enlace-netlify"
+                  >iridescent-profiterole-b5ffbd.netlify.app</a
+                >
+              </td>
+            </tr>
+            <tr>
+              <td>API REST (Railway)</td>
+              <td>
+                <a
+                  href="https://mercapp-api-production-56c5.up.railway.app"
+                  target="_blank"
+                  id="enlace-railway"
+                  >mercapp-api-production-56c5.up.railway.app</a
+                >
+              </td>
+            </tr>
+            <tr>
+              <td>Repositorio GitHub</td>
+              <td>
+                <a
+                  href="https://github.com/wildmaster18/MercApp-deploy"
+                  target="_blank"
+                  >github.com/wildmaster18/MercApp-deploy</a
+                >
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
 
-        <section class="seccion">
-            <h2>Tabla de endpoints del API</h2>
-            <table class="tabla tabla-endpoints">
-                <thead>
-                    <tr>
-                        <th>Metodo</th>
-                        <th>Ruta</th>
-                        <th>Descripcion</th>
-                        <th>Ejemplo de respuesta</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><span class="metodo get">GET</span></td>
-                        <td>/api/health</td>
-                        <td>Estado del servidor y BD</td>
-                        <td><code>{ "status": "ok", "database": "conectada" }</code></td>
-                    </tr>
-                    <tr>
-                        <td><span class="metodo get">GET</span></td>
-                        <td>/api/products</td>
-                        <td>Lista todos los productos</td>
-                        <td><code>[{ "id": "...", "name": "Teclado", "price": 54.99 }]</code></td>
-                    </tr>
-                    <tr>
-                        <td><span class="metodo get">GET</span></td>
-                        <td>/api/products/:id</td>
-                        <td>Detalle de un producto</td>
-                        <td><code>{ "id": "...", "name": "Teclado", "price": 54.99 }</code></td>
-                    </tr>
-                    <tr>
-                        <td><span class="metodo post">POST</span></td>
-                        <td>/api/products</td>
-                        <td>Crea un producto (FormData)</td>
-                        <td><code>{ "id": "...", "name": "Nuevo producto" }</code></td>
-                    </tr>
-                    <tr>
-                        <td><span class="metodo put">PUT</span></td>
-                        <td>/api/products/:id</td>
-                        <td>Actualiza un producto completo</td>
-                        <td><code>{ "id": "...", "name": "Producto editado" }</code></td>
-                    </tr>
-                    <tr>
-                        <td><span class="metodo patch">PATCH</span></td>
-                        <td>/api/products/:id</td>
-                        <td>Actualiza campos parciales</td>
-                        <td><code>{ "id": "...", "price": 60.00 }</code></td>
-                    </tr>
-                    <tr>
-                        <td><span class="metodo delete">DELETE</span></td>
-                        <td>/api/products/:id</td>
-                        <td>Elimina un producto</td>
-                        <td><code>{ "message": "Producto eliminado correctamente" }</code></td>
-                    </tr>
-                    <tr>
-                        <td><span class="metodo get">GET</span></td>
-                        <td>/api/categories</td>
-                        <td>Lista todas las categorias</td>
-                        <td><code>[{ "id": 1, "name": "Tecnologia" }]</code></td>
-                    </tr>
-                    <tr>
-                        <td><span class="metodo post">POST</span></td>
-                        <td>/api/categories</td>
-                        <td>Crea una categoria</td>
-                        <td><code>{ "id": 6, "name": "Nueva categoria" }</code></td>
-                    </tr>
-                    <tr>
-                        <td><span class="metodo post">POST</span></td>
-                        <td>/api/checkout</td>
-                        <td>Procesa la compra del carrito</td>
-                        <td><code>{ "message": "Compra procesada correctamente" }</code></td>
-                    </tr>
-                    <tr>
-                        <td><span class="metodo post">POST</span></td>
-                        <td>/api/auth/register</td>
-                        <td>Registra un usuario</td>
-                        <td><code>{ "message": "Usuario registrado", "user": {...} }</code></td>
-                    </tr>
-                    <tr>
-                        <td><span class="metodo post">POST</span></td>
-                        <td>/api/auth/login</td>
-                        <td>Inicia sesion</td>
-                        <td><code>{ "message": "Inicio de sesion exitoso", "user": {...} }</code></td>
-                    </tr>
-                    <tr>
-                        <td><span class="metodo post">POST</span></td>
-                        <td>/api/auth/logout</td>
-                        <td>Cierra la sesion</td>
-                        <td><code>{ "message": "Sesion cerrada correctamente" }</code></td>
-                    </tr>
-                    <tr>
-                        <td><span class="metodo get">GET</span></td>
-                        <td>/api/auth/me</td>
-                        <td>Datos del usuario autenticado</td>
-                        <td><code>{ "user": { "id": "...", "nomUsu": "admin" } }</code></td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
+      <section class="seccion">
+        <h2>Tabla de endpoints del API</h2>
+        <table class="tabla tabla-endpoints">
+          <thead>
+            <tr>
+              <th>Metodo</th>
+              <th>Ruta</th>
+              <th>Descripcion</th>
+              <th>Ejemplo de respuesta</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="metodo get">GET</span></td>
+              <td>/api/health</td>
+              <td>Estado del servidor y BD</td>
+              <td><code>{ "status": "ok", "database": "conectada" }</code></td>
+            </tr>
+            <tr>
+              <td><span class="metodo get">GET</span></td>
+              <td>/api/products</td>
+              <td>Lista todos los productos</td>
+              <td>
+                <code
+                  >[{ "id": "...", "name": "Teclado", "price": 54.99 }]</code
+                >
+              </td>
+            </tr>
+            <tr>
+              <td><span class="metodo get">GET</span></td>
+              <td>/api/products/:id</td>
+              <td>Detalle de un producto</td>
+              <td>
+                <code>{ "id": "...", "name": "Teclado", "price": 54.99 }</code>
+              </td>
+            </tr>
+            <tr>
+              <td><span class="metodo post">POST</span></td>
+              <td>/api/products</td>
+              <td>Crea un producto (FormData)</td>
+              <td><code>{ "id": "...", "name": "Nuevo producto" }</code></td>
+            </tr>
+            <tr>
+              <td><span class="metodo put">PUT</span></td>
+              <td>/api/products/:id</td>
+              <td>Actualiza un producto completo</td>
+              <td><code>{ "id": "...", "name": "Producto editado" }</code></td>
+            </tr>
+            <tr>
+              <td><span class="metodo patch">PATCH</span></td>
+              <td>/api/products/:id</td>
+              <td>Actualiza campos parciales</td>
+              <td><code>{ "id": "...", "price": 60.00 }</code></td>
+            </tr>
+            <tr>
+              <td><span class="metodo delete">DELETE</span></td>
+              <td>/api/products/:id</td>
+              <td>Elimina un producto</td>
+              <td>
+                <code>{ "message": "Producto eliminado correctamente" }</code>
+              </td>
+            </tr>
+            <tr>
+              <td><span class="metodo get">GET</span></td>
+              <td>/api/categories</td>
+              <td>Lista todas las categorias</td>
+              <td><code>[{ "id": 1, "name": "Tecnologia" }]</code></td>
+            </tr>
+            <tr>
+              <td><span class="metodo post">POST</span></td>
+              <td>/api/categories</td>
+              <td>Crea una categoria</td>
+              <td><code>{ "id": 6, "name": "Nueva categoria" }</code></td>
+            </tr>
+            <tr>
+              <td><span class="metodo post">POST</span></td>
+              <td>/api/checkout</td>
+              <td>Procesa la compra del carrito</td>
+              <td>
+                <code>{ "message": "Compra procesada correctamente" }</code>
+              </td>
+            </tr>
+            <tr>
+              <td><span class="metodo post">POST</span></td>
+              <td>/api/auth/register</td>
+              <td>Registra un usuario</td>
+              <td>
+                <code>{ "message": "Usuario registrado", "user": {...} }</code>
+              </td>
+            </tr>
+            <tr>
+              <td><span class="metodo post">POST</span></td>
+              <td>/api/auth/login</td>
+              <td>Inicia sesion</td>
+              <td>
+                <code
+                  >{ "message": "Inicio de sesion exitoso", "user": {...}
+                  }</code
+                >
+              </td>
+            </tr>
+            <tr>
+              <td><span class="metodo post">POST</span></td>
+              <td>/api/auth/logout</td>
+              <td>Cierra la sesion</td>
+              <td>
+                <code>{ "message": "Sesion cerrada correctamente" }</code>
+              </td>
+            </tr>
+            <tr>
+              <td><span class="metodo get">GET</span></td>
+              <td>/api/auth/me</td>
+              <td>Datos del usuario autenticado</td>
+              <td>
+                <code>{ "user": { "id": "...", "nomUsu": "admin" } }</code>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
 
-        <section class="seccion">
-            <h2>Guia de ejecucion local</h2>
-            <h3>Requisitos</h3>
-            <p>Node.js v18 o superior y MongoDB instalado localmente.</p>
+      <section class="seccion">
+        <h2>Guia de ejecucion local</h2>
+        <h3>Requisitos</h3>
+        <p>Node.js v18 o superior y MongoDB instalado localmente.</p>
 
-            <h3>Backend</h3>
-            <pre><code>cd backend
+        <h3>Backend</h3>
+        <pre><code>cd backend
 npm install
 npm run seed
 npm run dev</code></pre>
-            <p>El servidor queda disponible en <code>http://localhost:3000</code>. El seed crea categorias, productos de prueba y un usuario admin/admin.</p>
+        <p>
+          El servidor queda disponible en <code>http://localhost:3000</code>. El
+          seed crea categorias, productos de prueba y un usuario admin/admin.
+        </p>
 
-            <h3>Frontend</h3>
-            <pre><code>cd frontend
+        <h3>Frontend</h3>
+        <pre><code>cd frontend
 npm install
 npm run dev</code></pre>
-            <p>La SPA queda disponible en <code>http://localhost:5173</code>.</p>
-        </section>
+        <p>La SPA queda disponible en <code>http://localhost:5173</code>.</p>
+      </section>
 
-        <section class="seccion">
-            <h2>Tecnologias utilizadas</h2>
-            <div class="lista-tech">
-                <span class="tag">Node.js</span>
-                <span class="tag">Express 5</span>
-                <span class="tag">MongoDB</span>
-                <span class="tag">Mongoose</span>
-                <span class="tag">Vue 3</span>
-                <span class="tag">Vue Router</span>
-                <span class="tag">Pinia</span>
-                <span class="tag">Socket.io</span>
-                <span class="tag">Helmet</span>
-                <span class="tag">Vite</span>
-                <span class="tag">Multer</span>
-                <span class="tag">Bcrypt</span>
-            </div>
-        </section>
+      <section class="seccion">
+        <h2>Tecnologias utilizadas</h2>
+        <div class="lista-tech">
+          <span class="tag">Node.js</span>
+          <span class="tag">Express 5</span>
+          <span class="tag">MongoDB</span>
+          <span class="tag">Mongoose</span>
+          <span class="tag">Vue 3</span>
+          <span class="tag">Vue Router</span>
+          <span class="tag">Pinia</span>
+          <span class="tag">Socket.io</span>
+          <span class="tag">Helmet</span>
+          <span class="tag">Vite</span>
+          <span class="tag">Multer</span>
+          <span class="tag">Bcrypt</span>
+        </div>
+      </section>
     </main>
 
     <footer class="pie">
-        <div class="contenedor">
-            <p>MercApp &mdash; Aplicaciones Web &mdash; Universidad Politecnica Salesiana &mdash; 2026</p>
-        </div>
+      <div class="contenedor">
+        <p>
+          MercApp &mdash; Aplicaciones Web &mdash; Universidad Politecnica
+          Salesiana &mdash; 2026
+        </p>
+      </div>
     </footer>
-</body>
+  </body>
 </html>

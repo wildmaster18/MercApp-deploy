@@ -29,6 +29,10 @@ if (origenesPermitidos.length === 0)
 // Crea la aplicación de Express y el servidor HTTP para Socket.io
 const app = express();
 const servidor = http.createServer(app);
+
+// Confia en el proxy de Railway para que la cookie secure y el rate limit funcionen correctamente
+app.set("trust proxy", 1);
+
 const io = socketIo(servidor, {
   cors: {
     origin: origenesPermitidos,
