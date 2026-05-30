@@ -25,12 +25,18 @@
         <h2>Resumen técnico</h2>
         <p>
           MercApp es una tienda en línea compuesta por una API REST y una SPA
-          que trabajan juntas. El backend esta construido con Node.js, Express y
-          MongoDB, y expone endpoints para gestiónar productos, categorías,
+          que trabajan juntas. El backend está construido con Node.js, Express y
+          MongoDB, y expone endpoints para gestionar productos, categorías,
           autenticación de usuarios y un chat en tiempo real con Socket.io. El
           frontend es una Single Page Application desarrollada con Vue 3, Vue
           Router y Pinia, que consume la API y presenta toda la interfaz sin
           recargar la página.
+        </p>
+        <p>
+          El proyecto corresponde a la Unidad 4 de Aplicaciones Web e integra lo
+          aprendido en las cuatro unidades del curso: desde los fundamentos web
+          y el backend con Node.js, hasta la SPA con Vue 3 y el despliegue en la
+          nube sobre MongoDB Atlas, Railway, Netlify y GitHub Pages.
         </p>
       </section>
 
@@ -61,12 +67,68 @@
           </div>
         </div>
         <p class="nota-diagrama">
-          El frontend en Netlify se comunica con la API en Railway mediante
-          HTTPS. CORS está restringido al dominio de Netlify. La base de datos
-          se encuentra en MongoDB Atlas y usa conexión mongodb+srv con TLS. Para
-          Railway gratuito se documenta una allowlist amplia temporal, debido a
-          que no se dispone de IP fija de salida en el plan usado.
+          El usuario abre la SPA servida por Netlify mediante HTTPS. La SPA
+          consume la API en Railway, también por HTTPS, y CORS restringe el
+          acceso a los dominios configurados. La API guarda los datos en MongoDB
+          Atlas con conexión mongodb+srv y TLS. El micrositio de documentación
+          en GitHub Pages es independiente del flujo de datos y solo publica
+          esta información del proyecto.
         </p>
+        <p>
+          Sobre la base de datos: se encuentra en MongoDB Atlas con conexión
+          mongodb+srv y TLS. En este despliegue se documenta una allowlist
+          amplia temporal (0.0.0.0/0) debido a la limitación de IP fija en el
+          plan gratuito de Railway. Es una decisión temporal y documentada. El
+          acceso queda protegido por las credenciales de Atlas, las variables de
+          entorno y la configuración segura del backend.
+        </p>
+      </section>
+
+      <section class="seccion">
+        <h2>Relación con las unidades de la materia</h2>
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>Unidad</th>
+              <th>Aporte en el proyecto</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Unidad 1</td>
+              <td>
+                HTML semántico, CSS con flexbox y grid, JavaScript, estructura
+                cliente-servidor, rutas y formularios con validación en las
+                vistas de la aplicación.
+              </td>
+            </tr>
+            <tr>
+              <td>Unidad 2</td>
+              <td>
+                Backend con Express y separación por rutas y controladores,
+                MongoDB con Mongoose, CRUD de productos y categorías, sesiones
+                con express-session, autenticación con bcrypt, validaciones con
+                express-validator y manejo de imágenes con Multer.
+              </td>
+            </tr>
+            <tr>
+              <td>Unidad 3</td>
+              <td>
+                SPA con Vue 3 y Composition API, Vue Router con lazy loading y
+                guard de navegación, Pinia y composables para el estado global,
+                consumo de la API REST y navegación protegida.
+              </td>
+            </tr>
+            <tr>
+              <td>Unidad 4</td>
+              <td>
+                Despliegue en MongoDB Atlas, Railway, Netlify y GitHub Pages;
+                HTTPS; CORS por dominio; variables de entorno; endpoint de salud
+                y documentación pública.
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </section>
 
       <section class="seccion">
@@ -102,6 +164,16 @@
               </td>
             </tr>
             <tr>
+              <td>Micrositio (GitHub Pages)</td>
+              <td>
+                <a
+                  href="https://wildmaster18.github.io/MercApp-deploy/"
+                  target="_blank"
+                  >wildmaster18.github.io/MercApp-deploy</a
+                >
+              </td>
+            </tr>
+            <tr>
               <td>Repositorio GitHub</td>
               <td>
                 <a
@@ -113,6 +185,10 @@
             </tr>
           </tbody>
         </table>
+        <p>
+          Credenciales de prueba en producción: usuario <code>admin</code>,
+          contraseña <code>admin123</code>.
+        </p>
       </section>
 
       <section class="seccion">
@@ -124,14 +200,23 @@
               <th>Ruta</th>
               <th>Descripción</th>
               <th>Ejemplo de respuesta</th>
+              <th>Requiere sesión</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td><span class="metodo get">GET</span></td>
+              <td>/health</td>
+              <td>Estado directo del servidor y BD</td>
+              <td><code>{ "status": "ok", "database": "conectada" }</code></td>
+              <td>No</td>
+            </tr>
+            <tr>
+              <td><span class="metodo get">GET</span></td>
               <td>/api/health</td>
               <td>Estado del servidor y BD</td>
               <td><code>{ "status": "ok", "database": "conectada" }</code></td>
+              <td>No</td>
             </tr>
             <tr>
               <td><span class="metodo get">GET</span></td>
@@ -142,6 +227,7 @@
                   >[{ "id": "...", "name": "Teclado", "price": 54.99 }]</code
                 >
               </td>
+              <td>No</td>
             </tr>
             <tr>
               <td><span class="metodo get">GET</span></td>
@@ -150,24 +236,28 @@
               <td>
                 <code>{ "id": "...", "name": "Teclado", "price": 54.99 }</code>
               </td>
+              <td>No</td>
             </tr>
             <tr>
               <td><span class="metodo post">POST</span></td>
               <td>/api/products</td>
               <td>Crea un producto (FormData)</td>
               <td><code>{ "id": "...", "name": "Nuevo producto" }</code></td>
+              <td>Sí</td>
             </tr>
             <tr>
               <td><span class="metodo put">PUT</span></td>
               <td>/api/products/:id</td>
               <td>Actualiza un producto completo</td>
               <td><code>{ "id": "...", "name": "Producto editado" }</code></td>
+              <td>Sí</td>
             </tr>
             <tr>
               <td><span class="metodo patch">PATCH</span></td>
               <td>/api/products/:id</td>
               <td>Actualiza campos parciales</td>
               <td><code>{ "id": "...", "price": 60.00 }</code></td>
+              <td>Sí</td>
             </tr>
             <tr>
               <td><span class="metodo delete">DELETE</span></td>
@@ -176,18 +266,21 @@
               <td>
                 <code>{ "message": "Producto eliminado correctamente" }</code>
               </td>
+              <td>Sí</td>
             </tr>
             <tr>
               <td><span class="metodo get">GET</span></td>
               <td>/api/categories</td>
               <td>Lista todas las categorías</td>
-              <td><code>[{ "id": 1, "name": "Tecnologia" }]</code></td>
+              <td><code>[{ "id": 1, "name": "Tecnología" }]</code></td>
+              <td>No</td>
             </tr>
             <tr>
               <td><span class="metodo post">POST</span></td>
               <td>/api/categories</td>
               <td>Crea una categoría</td>
               <td><code>{ "id": 6, "name": "Nueva categoría" }</code></td>
+              <td>Sí</td>
             </tr>
             <tr>
               <td><span class="metodo post">POST</span></td>
@@ -196,6 +289,7 @@
               <td>
                 <code>{ "message": "Compra procesada correctamente" }</code>
               </td>
+              <td>No obligatoria en esta versión</td>
             </tr>
             <tr>
               <td><span class="metodo post">POST</span></td>
@@ -204,6 +298,7 @@
               <td>
                 <code>{ "message": "Usuario registrado", "user": {...} }</code>
               </td>
+              <td>No</td>
             </tr>
             <tr>
               <td><span class="metodo post">POST</span></td>
@@ -215,31 +310,146 @@
                   }</code
                 >
               </td>
+              <td>No</td>
             </tr>
             <tr>
               <td><span class="metodo post">POST</span></td>
               <td>/api/auth/logout</td>
-              <td>Cierra la sesión</td>
+              <td>Cierra la sesión activa</td>
               <td>
                 <code>{ "message": "Sesión cerrada correctamente" }</code>
               </td>
+              <td>No</td>
             </tr>
             <tr>
               <td><span class="metodo get">GET</span></td>
               <td>/api/auth/me</td>
-              <td>Datos del usuario autenticado</td>
+              <td>Devuelve el usuario autenticado o null</td>
               <td>
                 <code>{ "user": { "id": "...", "nomUsu": "admin" } }</code>
               </td>
+              <td>No (consulta de sesión)</td>
             </tr>
           </tbody>
         </table>
+        <p class="nota-diagrama">
+          Las rutas marcadas con "Sí" exigen una sesión activa mediante un
+          middleware en el backend y responden 401 sin sesión. Las rutas de
+          lectura quedan públicas para facilitar la revisión del API.
+          <code>/api/auth/me</code> no rechaza la petición: devuelve los datos
+          del usuario si hay sesión o <code>null</code> si no la hay, y es lo
+          que usa el frontend para verificar la sesión real.
+        </p>
+      </section>
+
+      <section class="seccion">
+        <h2>Variables de entorno</h2>
+        <h3>Backend (Railway, producción)</h3>
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>Variable</th>
+              <th>Descripción</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>MONGODB_URI</code></td>
+              <td>Cadena mongodb+srv del cluster de Atlas</td>
+            </tr>
+            <tr>
+              <td><code>SESSION_SECRET</code></td>
+              <td>Clave para firmar las sesiones, obligatoria en producción</td>
+            </tr>
+            <tr>
+              <td><code>FRONTEND_URL</code></td>
+              <td>Origen permitido en CORS (dominio de Netlify)</td>
+            </tr>
+            <tr>
+              <td><code>NETLIFY_URL</code></td>
+              <td>Origen adicional permitido en CORS</td>
+            </tr>
+            <tr>
+              <td><code>NODE_ENV</code></td>
+              <td>Se fija en production para activar la cookie segura</td>
+            </tr>
+            <tr>
+              <td><code>PORT</code></td>
+              <td>Lo asigna Railway automáticamente (process.env.PORT)</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Frontend (build de Netlify)</h3>
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>Variable</th>
+              <th>Descripción</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>VITE_API_URL</code></td>
+              <td>URL pública del API en Railway que consume la SPA</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          El archivo <code>.env.local</code> es solo local y no se versiona. La
+          plantilla a publicar es <code>.env.example</code>, sin valores reales.
+          Los secretos nunca se suben al repositorio y
+          <code>SESSION_SECRET</code>
+          es obligatorio en producción. El puerto lo asigna Railway.
+        </p>
+      </section>
+
+      <section class="seccion">
+        <h2>Seguridad y configuración</h2>
+        <ul style="padding-left: 1.25rem; color: #444">
+          <li>HTTPS activo en Netlify, Railway y GitHub Pages.</li>
+          <li>
+            CORS restringido por <code>FRONTEND_URL</code> y
+            <code>NETLIFY_URL</code>; no se usa el comodín <code>*</code>.
+          </li>
+          <li>
+            Cookies de sesión con <code>secure</code> y
+            <code>sameSite: none</code> en producción para el uso cross-domain.
+          </li>
+          <li>
+            El frontend envía <code>credentials: include</code> en las
+            peticiones que usan sesión.
+          </li>
+          <li>
+            Verificación de sesión real con <code>GET /api/auth/me</code>; el
+            router no depende solo de <code>localStorage</code>.
+          </li>
+          <li>
+            Rutas de escritura de productos y categorías protegidas con sesión.
+          </li>
+          <li>
+            <code>SESSION_SECRET</code> obligatorio cuando
+            <code>NODE_ENV=production</code>.
+          </li>
+          <li>Helmet para cabeceras de seguridad HTTP.</li>
+          <li>express-rate-limit para limitar las peticiones al API.</li>
+          <li>
+            express-validator para validar y sanitizar los datos de entrada.
+          </li>
+          <li>MongoDB Atlas con conexión mongodb+srv y TLS.</li>
+          <li>
+            Archivos <code>.env</code> reales fuera del control de versiones;
+            <code>.env.local</code> solo local.
+          </li>
+        </ul>
       </section>
 
       <section class="seccion">
         <h2>Guía de ejecución local</h2>
         <h3>Requisitos</h3>
-        <p>Node.js v24 recomendado y MongoDB instalado localmente.</p>
+        <p>
+          Node.js v24 recomendado y MongoDB local o MongoDB Atlas configurado.
+        </p>
 
         <h3>Backend</h3>
         <pre><code>cd backend
@@ -256,6 +466,62 @@ npm run dev</code></pre>
 npm install
 npm run dev</code></pre>
         <p>La SPA queda disponible en <code>http://localhost:5173</code>.</p>
+
+        <h3>Build de producción</h3>
+        <pre><code>cd frontend
+npm run build
+npm run preview</code></pre>
+        <p>
+          El build genera la carpeta <code>dist/</code> que se publica en
+          Netlify. Antes de construir se define <code>VITE_API_URL</code> con la
+          URL del API en Railway.
+        </p>
+      </section>
+
+      <section class="seccion">
+        <h2>Pruebas de verificación</h2>
+        <p>Pruebas sugeridas para comprobar el despliegue:</p>
+        <ul style="padding-left: 1.25rem; color: #444">
+          <li>Abrir el frontend publicado en Netlify.</li>
+          <li>
+            Iniciar sesión con <code>admin</code> / <code>admin123</code>.
+          </li>
+          <li>Consultar <code>/health</code> y <code>/api/health</code>.</li>
+          <li>Ver el listado de productos.</li>
+          <li>Crear un producto.</li>
+          <li>Editar un producto.</li>
+          <li>Eliminar un producto.</li>
+          <li>Crear una categoría.</li>
+          <li>Agregar productos al carrito y finalizar la compra.</li>
+          <li>Cerrar sesión.</li>
+          <li>Recargar rutas internas de Vue Router sin obtener 404.</li>
+          <li>Verificar que el micrositio carga en GitHub Pages.</li>
+        </ul>
+      </section>
+
+      <section class="seccion">
+        <h2>Decisiones y ajustes de despliegue</h2>
+        <ul style="padding-left: 1.25rem; color: #444">
+          <li>
+            Railway asigna el puerto, por eso el backend lo lee desde
+            <code>process.env.PORT</code>.
+          </li>
+          <li>
+            Railway gratuito no ofrece IP fija de salida, por eso Atlas usa una
+            allowlist amplia temporal y documentada.
+          </li>
+          <li>
+            Netlify necesita el archivo <code>_redirects</code> para que Vue
+            Router no devuelva 404 al recargar una ruta interna.
+          </li>
+          <li>
+            Las cookies cross-domain requieren
+            <code>credentials: include</code> en el frontend y
+            <code>sameSite: none</code> con <code>secure</code>
+            en el backend.
+          </li>
+          <li>Los archivos <code>.env</code> reales no se versionan.</li>
+        </ul>
       </section>
 
       <section class="seccion">
@@ -274,6 +540,27 @@ npm run dev</code></pre>
           <span class="tag">Multer 2</span>
           <span class="tag">Bcrypt 6</span>
         </div>
+      </section>
+
+      <section class="seccion">
+        <h2>Checklist de cumplimiento</h2>
+        <ul style="padding-left: 1.25rem; color: #444">
+          <li>MongoDB Atlas configurado con cluster M0 y TLS.</li>
+          <li>Backend desplegado en Railway con variables de entorno.</li>
+          <li>Frontend publicado en Netlify con fallback de Vue Router.</li>
+          <li>Micrositio publicado en GitHub Pages.</li>
+          <li>HTTPS activo en las tres plataformas.</li>
+          <li>Variables de entorno documentadas y secretos fuera del repo.</li>
+          <li>CORS restringido por dominio, sin comodín.</li>
+          <li>
+            Endpoints <code>/health</code> y
+            <code>/api/health</code> disponibles.
+          </li>
+          <li>CRUD de productos y gestión de categorías.</li>
+          <li>Sesiones y autenticación con verificación real de sesión.</li>
+          <li>Rutas sensibles protegidas con sesión.</li>
+          <li>Documentación pública en este micrositio.</li>
+        </ul>
       </section>
     </main>
 

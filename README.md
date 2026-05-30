@@ -159,39 +159,44 @@ Ningún archivo `.env` real se sube al repositorio. Se incluyen archivos `.env.e
 
 ## Seguridad y configuración de entorno
 
-- **Secretos fuera del repositorio:** los `.gitignore` excluyen `node_modules`, `.env`, `.env.local`, `dist` y `uploads`. El archivo `.env.local` del frontend se usa solo en local para el build y no se versiona; el repositorio incluye `.env.example` en lugar de los valores reales.
+- **Secretos fuera del repositorio:** los `.gitignore` excluyen `node_modules`, `.env`, `.env.local`, `dist` y `uploads`. El archivo `.env.local` del frontend se usa solo en local para el build y no se versiona; el repositorio incluye `.env.example` en lugar de los valores reales. La plantilla a documentar es siempre `.env.example`. Si en algún momento `.env.local` quedó versionado por error, se retira del control de versiones con `git rm --cached frontend/.env.local`.
 - **HTTPS:** activo en las tres plataformas (Netlify, Railway y GitHub Pages).
 - **CORS restringido por dominio:** el backend lee `FRONTEND_URL` y `NETLIFY_URL` y solo acepta peticiones desde esos orígenes, en lugar de usar un comodín `*`.
+- **SESSION_SECRET obligatorio en producción:** cuando `NODE_ENV=production`, el servidor exige `SESSION_SECRET`; si falta, no arranca. En desarrollo usa un valor por defecto solo para pruebas locales.
+- **Autenticación real basada en sesión:** el inicio de sesión crea una sesión en el backend con `express-session` y `bcrypt`. El frontend no confía en `localStorage` como fuente de seguridad: verifica la sesión real contra `GET /api/auth/me` y el guard del router decide el acceso según esa respuesta.
+- **Cookies cross-domain:** todas las peticiones del frontend que crean, consultan o usan la sesión se envían con `credentials: include`, de modo que la cookie viaje entre los dominios de Netlify y Railway.
+- **Rutas sensibles protegidas con sesión:** crear, editar y eliminar productos y crear categorías exigen sesión activa mediante un middleware en el backend; sin sesión responden 401. Las rutas de lectura quedan públicas para que el docente revise el API sin necesidad de iniciar sesión.
 - **Helmet:** añade cabeceras de seguridad HTTP.
 - **Rate limiting:** limita la cantidad de peticiones a las rutas `/api` para evitar abusos.
 - **express-validator:** valida y sanitiza los datos que entran a la API.
 - **trust proxy:** habilitado para que el backend funcione correctamente detrás del proxy de Railway (necesario para que el rate limit y la cookie segura detecten bien la conexión HTTPS).
 - **Cookie de sesión:** en producción se configura con `secure` y `sameSite: none` para que funcione entre los dominios de Netlify y Railway.
-- **Allowlist de Atlas:** está en `0.0.0.0/0`. Railway en plan gratuito no expone IPs de salida estáticas, por lo que la allowlist debe permitir cualquier origen para que el backend pueda conectarse. El acceso a la base de datos queda protegido por el usuario y contraseña propios de Atlas, la cadena `mongodb+srv://` que fuerza TLS, y un `SESSION_SECRET` robusto.
-- **Verificación TLS:** la conectividad con Atlas se comprueba de forma funcional con el endpoint `/api/health`, que reporta `"database": "conectada"`, y con la carga de datos vía `seed-api.js` contra la API en producción.
+- **Allowlist de Atlas:** está en `0.0.0.0/0`. Railway en plan gratuito no expone IPs de salida estáticas, por lo que la allowlist debe permitir cualquier origen para que el backend pueda conectarse. Es una decisión temporal y documentada, no la configuración ideal. El acceso a la base de datos queda protegido por el usuario y contraseña propios de Atlas, la cadena `mongodb+srv://` que fuerza TLS, las variables de entorno y un `SESSION_SECRET` robusto.
+- **Verificación TLS:** la conectividad con Atlas se comprueba de forma funcional con los endpoints `/health` y `/api/health`, que reportan `"database": "conectada"`, y con la carga de datos vía `seed-api.js` contra la API en producción.
 
 ---
 
 ## Rutas de la API
 
-| Método | Ruta               | Descripción                      |
-| ------ | ------------------ | -------------------------------- |
-| GET    | /api/health        | Estado del servidor y la BD      |
-| GET    | /api/products      | Lista todos los productos        |
-| GET    | /api/products/:id  | Obtiene un producto por su ID    |
-| POST   | /api/products      | Crea un producto nuevo           |
-| PUT    | /api/products/:id  | Actualiza un producto completo   |
-| PATCH  | /api/products/:id  | Actualiza campos parciales       |
-| DELETE | /api/products/:id  | Elimina un producto              |
-| GET    | /api/categories    | Lista las categorías             |
-| POST   | /api/categories    | Crea una categoría nueva         |
-| POST   | /api/checkout      | Procesa compra y descuenta stock |
-| POST   | /api/auth/register | Registra un usuario nuevo        |
-| POST   | /api/auth/login    | Inicia sesión                    |
-| POST   | /api/auth/logout   | Cierra sesión                    |
-| GET    | /api/auth/me       | Devuelve el usuario autenticado  |
+| Método | Ruta               | Descripción                      | Requiere sesión             |
+| ------ | ------------------ | -------------------------------- | --------------------------- |
+| GET    | /health            | Estado directo del servidor y la BD | No                       |
+| GET    | /api/health        | Estado del servidor y la BD      | No                          |
+| GET    | /api/products      | Lista todos los productos        | No                          |
+| GET    | /api/products/:id  | Obtiene un producto por su ID    | No                          |
+| POST   | /api/products      | Crea un producto nuevo           | Sí                          |
+| PUT    | /api/products/:id  | Actualiza un producto completo   | Sí                          |
+| PATCH  | /api/products/:id  | Actualiza campos parciales       | Sí                          |
+| DELETE | /api/products/:id  | Elimina un producto              | Sí                          |
+| GET    | /api/categories    | Lista las categorías             | No                          |
+| POST   | /api/categories    | Crea una categoría nueva         | Sí                          |
+| POST   | /api/checkout      | Procesa compra y descuenta stock | No obligatoria en esta versión |
+| POST   | /api/auth/register | Registra un usuario nuevo        | No                          |
+| POST   | /api/auth/login    | Inicia sesión                    | No                          |
+| POST   | /api/auth/logout   | Cierra la sesión activa          | No                          |
+| GET    | /api/auth/me       | Devuelve el usuario autenticado o null | No (consulta de sesión) |
 
-Las rutas de productos validan los datos con express-validator. Los errores devuelven códigos 400 (validación), 404 (no encontrado) o 500 (servidor).
+Las rutas marcadas con "Sí" exigen una sesión activa mediante un middleware en el backend; sin sesión responden con 401. `POST /api/checkout` no exige sesión en esta versión para permitir la compra como visitante. `GET /api/auth/me` no rechaza la petición: devuelve los datos del usuario si hay sesión o `null` si no la hay, y es lo que usa el frontend para verificar la sesión real. Las rutas de productos validan los datos con express-validator y devuelven códigos 400 (validación), 404 (no encontrado) o 500 (servidor).
 
 ---
 
@@ -295,7 +300,7 @@ El backend expone 14 endpoints RESTful. Los modelos Producto (nombre, precio, de
 
 ### Endpoint de salud
 
-Se agregó `GET /api/health` para verificar en producción que el servidor responde y que la conexión con la base de datos está activa. Devuelve el estado, el estado de la BD y el uptime, y sirve como prueba rápida de que el despliegue en Railway funciona.
+Se agregaron dos endpoints de salud: `GET /api/health` y `GET /health` directo. Ambos verifican en producción que el servidor responde y que la conexión con la base de datos está activa. Devuelven el estado, el estado de la BD y el uptime, y sirven como prueba rápida de que el despliegue en Railway funciona. El endpoint `/health` directo facilita la revisión sin el prefijo `/api`.
 
 ### SPA Vue 3 con Vite
 
@@ -395,7 +400,11 @@ Durante el despliegue surgieron varios problemas que se resolvieron revisando lo
 - [x] `.gitignore` que excluye node_modules, .env, dist y uploads
 - [x] MongoDB Atlas: cluster M0 con datos, usuario de BD y TLS por la cadena mongodb+srv
 - [x] Railway: API desplegada con MONGODB_URI, SESSION_SECRET, CORS y NODE_ENV
-- [x] Endpoint de salud `/api/health` respondiendo OK
+- [x] `SESSION_SECRET` obligatorio cuando `NODE_ENV=production`
+- [x] Endpoints de salud `/health` y `/api/health` respondiendo OK
+- [x] Autenticación real por sesión verificada con `/api/auth/me` (el frontend no depende solo de `localStorage`)
+- [x] Peticiones del frontend con `credentials: include` para la cookie cross-domain
+- [x] Rutas de escritura de productos y categorías protegidas con sesión
 - [x] CRUD de productos y categorías funcionando en producción
 - [x] Netlify: SPA publicada con `_redirects` para el fallback de rutas
 - [x] CORS restringido al dominio de Netlify, sin errores de preflight
