@@ -106,7 +106,7 @@ npm run build
 npm run preview
 ```
 
-El comando `build` genera la carpeta `dist/` que es la que se publica en Netlify. Antes de construir, se define `VITE_API_URL` en un archivo `.env` o `.env.local` apuntando a la URL del API en Railway.
+El comando `build` genera la carpeta `dist/` que es la que se publica en Netlify. Antes de construir, se define `VITE_API_URL` en un archivo local de entorno, por ejemplo `.env.local`, apuntando a la URL del API en Railway. Ese archivo es solo local y no debe versionarse en Git.
 
 ---
 
@@ -273,7 +273,7 @@ MercApp-deploy/
 │   ├── public/            _redirects para el fallback de la SPA en Netlify
 │   ├── src/
 │   │   ├── components/    NavBar, ProductCard, CartItem, LoadingFallback
-│   │   ├── composables/   useFetch, useProducts, useCart
+│   │   ├── composables/   useFetch, useProducts, useCart, useAuth
 │   │   ├── router/        index.js con guard de autenticación
 │   │   ├── views/         Home, ProductoDetalle, ProductoForm, CarritoView,
 │   │   │                  LoginView, RegistroView, ChatView, AboutView, NotFoundView
@@ -296,7 +296,7 @@ MercApp-deploy/
 
 ### API y modelos de datos
 
-El backend expone 14 endpoints RESTful. Los modelos Producto (nombre, precio, descripción, imagen, stock, categoryId) y Categoria (idCat, nombre) se definen con Mongoose. El seed local puebla la base con 12 productos en 5 categorías y un usuario admin, y el script `seed-api.js` hace lo mismo contra la API en producción.
+El backend expone endpoints RESTful para salud del sistema, productos, categorías, carrito y autenticación. Los modelos Producto (nombre, precio, descripción, imagen, stock, categoryId) y Categoria (idCat, nombre) se definen con Mongoose. El seed local puebla la base con 12 productos en 5 categorías y un usuario admin, y el script `seed-api.js` hace lo mismo contra la API en producción.
 
 ### Endpoint de salud
 
