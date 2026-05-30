@@ -50,9 +50,10 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { URL_API } from '@/config'
+import { useAuth } from '@/composables/useAuth'
 
 const router = useRouter()
+const { register } = useAuth()
 
 // Campos del formulario de registro
 const nomUsu = ref('')
@@ -67,35 +68,13 @@ async function manejarRegistro() {
     exitoMsg.value = ''
     enviando.value = true
 
-    try {
-        const respuesta = await fetch(URL_API + '/api/auth/register', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                nomUsu: nomUsu.value.trim(),
-                passUsu: passUsu.value
-            })
-        })
+    const resultado = await register(nomUsu.value, passUsu.value)
+    enviando.value = false
 
-        const datos = await respuesta.json()
-
-        if (!respuesta.ok) {
-            // Muestra errores de validacion o del servidor
-            if (datos.errors) {
-                errorMsg.value = datos.errors.map((e) => e.msg).join('. ')
-            } else {
-                errorMsg.value = datos.error || 'Error al registrarse'
-            }
-            return
-        }
-
-        // Guarda el nombre del usuario y redirige al catalogo
-        localStorage.setItem('mercapp_usuario', datos.user.nomUsu)
+    if (resultado.ok) {
         router.push('/')
-    } catch (err) {
-        errorMsg.value = 'No se pudo conectar con el servidor'
-    } finally {
-        enviando.value = false
+    } else {
+        errorMsg.value = resultado.error
     }
 }
 </script>

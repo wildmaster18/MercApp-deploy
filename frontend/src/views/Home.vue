@@ -182,6 +182,7 @@ async function crearCategoria() {
     try {
         const respuesta = await fetch(URL_API + '/api/categories', {
             method: 'POST',
+            credentials: 'include',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ name: nombre })
         })

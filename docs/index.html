@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>MercApp - Documentacion del Proyecto</title>
+    <title>MercApp - Documentación del Proyecto</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
@@ -11,26 +11,26 @@
       <div class="contenedor">
         <h1>MercApp</h1>
         <p class="subtitulo">
-          Aplicacion web para gestion y venta de productos
+          Aplicación web para gestión y venta de productos
         </p>
         <p class="datos-autor">
-          Mateo Carranza &mdash; Ingenieria en Software &mdash; Universidad
-          Politecnica Salesiana
+          Mateo Carranza &mdash; Ingeniería en Software &mdash; Universidad
+          Politécnica Salesiana
         </p>
       </div>
     </header>
 
     <main class="contenedor">
       <section class="seccion">
-        <h2>Resumen tecnico</h2>
+        <h2>Resumen técnico</h2>
         <p>
-          MercApp es una tienda en linea compuesta por una API REST y una SPA
+          MercApp es una tienda en línea compuesta por una API REST y una SPA
           que trabajan juntas. El backend esta construido con Node.js, Express y
-          MongoDB, y expone endpoints para gestionar productos, categorias,
-          autenticacion de usuarios y un chat en tiempo real con Socket.io. El
+          MongoDB, y expone endpoints para gestiónar productos, categorías,
+          autenticación de usuarios y un chat en tiempo real con Socket.io. El
           frontend es una Single Page Application desarrollada con Vue 3, Vue
           Router y Pinia, que consume la API y presenta toda la interfaz sin
-          recargar la pagina.
+          recargar la página.
         </p>
       </section>
 
@@ -62,9 +62,10 @@
         </div>
         <p class="nota-diagrama">
           El frontend en Netlify se comunica con la API en Railway mediante
-          HTTPS. CORS esta restringido al dominio de Netlify. La base de datos
-          en Atlas acepta conexiones unicamente desde las IPs autorizadas con
-          TLS habilitado.
+          HTTPS. CORS está restringido al dominio de Netlify. La base de datos
+          se encuentra en MongoDB Atlas y usa conexión mongodb+srv con TLS. Para
+          Railway gratuito se documenta una allowlist amplia temporal, debido a
+          que no se dispone de IP fija de salida en el plan usado.
         </p>
       </section>
 
@@ -119,9 +120,9 @@
         <table class="tabla tabla-endpoints">
           <thead>
             <tr>
-              <th>Metodo</th>
+              <th>Método</th>
               <th>Ruta</th>
-              <th>Descripcion</th>
+              <th>Descripción</th>
               <th>Ejemplo de respuesta</th>
             </tr>
           </thead>
@@ -179,14 +180,14 @@
             <tr>
               <td><span class="metodo get">GET</span></td>
               <td>/api/categories</td>
-              <td>Lista todas las categorias</td>
+              <td>Lista todas las categorías</td>
               <td><code>[{ "id": 1, "name": "Tecnologia" }]</code></td>
             </tr>
             <tr>
               <td><span class="metodo post">POST</span></td>
               <td>/api/categories</td>
-              <td>Crea una categoria</td>
-              <td><code>{ "id": 6, "name": "Nueva categoria" }</code></td>
+              <td>Crea una categoría</td>
+              <td><code>{ "id": 6, "name": "Nueva categoría" }</code></td>
             </tr>
             <tr>
               <td><span class="metodo post">POST</span></td>
@@ -207,10 +208,10 @@
             <tr>
               <td><span class="metodo post">POST</span></td>
               <td>/api/auth/login</td>
-              <td>Inicia sesion</td>
+              <td>Inicia sesión</td>
               <td>
                 <code
-                  >{ "message": "Inicio de sesion exitoso", "user": {...}
+                  >{ "message": "Inicio de sesión exitoso", "user": {...}
                   }</code
                 >
               </td>
@@ -218,9 +219,9 @@
             <tr>
               <td><span class="metodo post">POST</span></td>
               <td>/api/auth/logout</td>
-              <td>Cierra la sesion</td>
+              <td>Cierra la sesión</td>
               <td>
-                <code>{ "message": "Sesion cerrada correctamente" }</code>
+                <code>{ "message": "Sesión cerrada correctamente" }</code>
               </td>
             </tr>
             <tr>
@@ -236,9 +237,9 @@
       </section>
 
       <section class="seccion">
-        <h2>Guia de ejecucion local</h2>
+        <h2>Guía de ejecución local</h2>
         <h3>Requisitos</h3>
-        <p>Node.js v18 o superior y MongoDB instalado localmente.</p>
+        <p>Node.js v24 recomendado y MongoDB instalado localmente.</p>
 
         <h3>Backend</h3>
         <pre><code>cd backend
@@ -247,7 +248,7 @@ npm run seed
 npm run dev</code></pre>
         <p>
           El servidor queda disponible en <code>http://localhost:3000</code>. El
-          seed crea categorias, productos de prueba y un usuario admin/admin123.
+          seed crea categorías, productos de prueba y un usuario admin/admin123.
         </p>
 
         <h3>Frontend</h3>
@@ -258,9 +259,9 @@ npm run dev</code></pre>
       </section>
 
       <section class="seccion">
-        <h2>Tecnologias utilizadas</h2>
+        <h2>Tecnologías utilizadas</h2>
         <div class="lista-tech">
-          <span class="tag">Node.js 18+</span>
+          <span class="tag">Node.js v24</span>
           <span class="tag">Express 5</span>
           <span class="tag">MongoDB Atlas</span>
           <span class="tag">Mongoose 9</span>
@@ -279,7 +280,7 @@ npm run dev</code></pre>
     <footer class="pie">
       <div class="contenedor">
         <p>
-          MercApp &mdash; Aplicaciones Web &mdash; Universidad Politecnica
+          MercApp &mdash; Aplicaciones Web &mdash; Universidad Politécnica
           Salesiana &mdash; 2026
         </p>
       </div>

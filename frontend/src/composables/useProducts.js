@@ -66,6 +66,7 @@ export function useProducts() {
     try {
       const respuesta = await fetch(rutaApi + "/products", {
         method: "POST",
+        credentials: "include",
         body: formData,
       });
       if (!respuesta.ok) {
@@ -90,6 +91,7 @@ export function useProducts() {
     try {
       const respuesta = await fetch(rutaApi + "/products/" + id, {
         method: "PUT",
+        credentials: "include",
         body: formData,
       });
       if (!respuesta.ok) {
@@ -117,6 +119,7 @@ export function useProducts() {
     try {
       const respuesta = await fetch(rutaApi + "/products/" + id, {
         method: "DELETE",
+        credentials: "include",
       });
       if (!respuesta.ok) {
         const datosError = await respuesta.json();

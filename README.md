@@ -59,7 +59,7 @@ El usuario entra al frontend publicado en Netlify, que sirve el build estático 
 
 ### Requisitos
 
-Se necesita tener instalado Node.js v18 o superior y MongoDB.
+Se necesita tener instalado Node.js v24 recomendado y MongoDB.
 
 ### Backend
 
@@ -159,7 +159,7 @@ Ningún archivo `.env` real se sube al repositorio. Se incluyen archivos `.env.e
 
 ## Seguridad y configuración de entorno
 
-- **Secretos fuera del repositorio:** los `.gitignore` excluyen `node_modules`, `.env`, `dist` y `uploads`. El repositorio incluye `.env.example` en lugar de los valores reales.
+- **Secretos fuera del repositorio:** los `.gitignore` excluyen `node_modules`, `.env`, `.env.local`, `dist` y `uploads`. El archivo `.env.local` del frontend se usa solo en local para el build y no se versiona; el repositorio incluye `.env.example` en lugar de los valores reales.
 - **HTTPS:** activo en las tres plataformas (Netlify, Railway y GitHub Pages).
 - **CORS restringido por dominio:** el backend lee `FRONTEND_URL` y `NETLIFY_URL` y solo acepta peticiones desde esos orígenes, en lugar de usar un comodín `*`.
 - **Helmet:** añade cabeceras de seguridad HTTP.
@@ -220,7 +220,7 @@ Las rutas marcadas como Lazy se cargan bajo demanda con `() => import(...)`. La 
 
 | Tecnología        | Versión | Uso                       |
 | ----------------- | ------- | ------------------------- |
-| Node.js           | v18+    | Entorno de ejecución      |
+| Node.js           | v24 recomendado | Entorno de ejecución |
 | Express           | 5.2.1   | Framework HTTP            |
 | MongoDB Atlas     | v6+     | Base de datos en la nube  |
 | Mongoose          | 9.6.2   | ODM para MongoDB          |

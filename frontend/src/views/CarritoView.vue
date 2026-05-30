@@ -113,6 +113,7 @@ async function finalizarCompra() {
 
         const respuesta = await fetch(URL_API + '/api/checkout', {
             method: 'POST',
+            credentials: 'include',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ items: listaItems })
         })

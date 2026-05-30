@@ -49,9 +49,10 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { URL_API } from '@/config'
+import { useAuth } from '@/composables/useAuth'
 
 const router = useRouter()
+const { login } = useAuth()
 
 // Campos del formulario de inicio de sesion
 const nomUsu = ref('')
@@ -64,30 +65,13 @@ async function manejarLogin() {
     errorMsg.value = ''
     enviando.value = true
 
-    try {
-        const respuesta = await fetch(URL_API + '/api/auth/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                nomUsu: nomUsu.value.trim(),
-                passUsu: passUsu.value
-            })
-        })
+    const resultado = await login(nomUsu.value, passUsu.value)
+    enviando.value = false
 
-        const datos = await respuesta.json()
-
-        if (!respuesta.ok) {
-            errorMsg.value = datos.error || 'Error al iniciar sesion'
-            return
-        }
-
-        // Guarda el nombre del usuario en localStorage para el chat
-        localStorage.setItem('mercapp_usuario', datos.user.nomUsu)
+    if (resultado.ok) {
         router.push('/')
-    } catch (err) {
-        errorMsg.value = 'No se pudo conectar con el servidor'
-    } finally {
-        enviando.value = false
+    } else {
+        errorMsg.value = resultado.error
     }
 }
 </script>

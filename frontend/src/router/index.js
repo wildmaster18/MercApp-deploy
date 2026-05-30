@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { useAuth } from '@/composables/useAuth'
 
 // Home se carga de forma normal porque es la vista principal
 import Home from '@/views/Home.vue'
@@ -92,7 +93,7 @@ const router = createRouter({
 })
 
 // Verifica autenticación antes de cada navegación
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
     document.title = to.meta.titulo || 'MercApp'
 
     // Permite acceso libre a rutas públicas
@@ -101,12 +102,18 @@ router.beforeEach((to, from, next) => {
         return
     }
 
-    // Revisa si hay un usuario guardado en localStorage
-    const usuario = localStorage.getItem('mercapp_usuario')
-    if (!usuario) {
-        next({ name: 'login' })
-    } else {
+    const { usuario, verificado, verificarSesion } = useAuth()
+
+    // Consulta la sesión al backend la primera vez o al recargar la página
+    if (!verificado.value) {
+        await verificarSesion()
+    }
+
+    // Solo permite el acceso si existe una sesión real activa
+    if (usuario.value) {
         next()
+    } else {
+        next({ name: 'login' })
     }
 })
 

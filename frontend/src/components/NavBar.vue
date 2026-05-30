@@ -25,31 +25,26 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
+import { computed } from 'vue'
+import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useCart } from '@/composables/useCart'
-import { URL_API } from '@/config'
+import { useAuth } from '@/composables/useAuth'
 
 const router = useRouter()
-const route = useRoute()
 
 // Extrae el estado reactivo del carrito con storeToRefs
 const { cantidadItems } = storeToRefs(useCart())
 
-// Nombre del usuario autenticado leído de localStorage
-const usuarioActual = ref(localStorage.getItem('mercapp_usuario') || '')
+// Estado de sesion compartido desde el composable de autenticacion
+const { usuario, logout } = useAuth()
 
-// Revisa si hay usuario cada vez que cambia la ruta
-watch(() => route.fullPath, () => {
-    usuarioActual.value = localStorage.getItem('mercapp_usuario') || ''
-})
+// Nombre del usuario autenticado segun la sesion del backend
+const usuarioActual = computed(() => (usuario.value ? usuario.value.nomUsu : ''))
 
-// Cierra la sesión eliminando el usuario de localStorage y redirige al login
-function cerrarSesion() {
-    localStorage.removeItem('mercapp_usuario')
-    usuarioActual.value = ''
-    fetch(URL_API + '/api/auth/logout', { method: 'POST' })
+// Cierra la sesión en el backend, limpia el estado y redirige al login
+async function cerrarSesion() {
+    await logout()
     router.push('/login')
 }
 </script>
